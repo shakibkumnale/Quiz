@@ -1,27 +1,31 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://quizy-frontent.vercel.app/api', 
+  baseURL: 'https://quizy-frontent.vercel.app/api',
   // baseURL: 'http://localhost:3000/api', 
-  withCredentials: true, 
+
+  withCredentials: true,
+  timeout: 10000, // Add timeout
 });
 
-// Add request interceptor to add auth token
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+  const authState = localStorage.getItem('authState');
+  if (authState) {
+    const { accessToken } = JSON.parse(authState);
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
   }
   return config;
 });
 
-// Add response interceptor to handle auth errors
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
-      localStorage.removeItem('token');
-      window.location.href = '/login';
+    if (error.response?.status === 401 && !window.location.pathname.includes('/login')) {
+      localStorage.removeItem('authState');
+      // Use window.location.replace to avoid adding to history
+      window.location.replace('/login');
     }
     return Promise.reject(error);
   }
@@ -29,11 +33,18 @@ api.interceptors.response.use(
 
 export const login = async (data) => {
   const response = await api.post('/users/login', data);
-  if (response.data.accessToken) {
-    localStorage.setItem('token', response.data.accessToken);
+  if (response.data.success) {
+    const authState = {
+      user: response.data.data.user,
+      accessToken: response.data.data.accessToken,
+      refreshToken: response.data.data.refreshToken,
+      isAuthenticated: true
+    };
+    localStorage.setItem('authState', JSON.stringify(authState));
   }
   return response;
 };
+
 
 export const register = async (data) => {
   const response = await api.post('/users/register', data);

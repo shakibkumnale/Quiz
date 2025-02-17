@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, ArrowLeft } from 'lucide-react';
@@ -12,8 +12,9 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
   const location = useLocation();
-  const from = location.state?.from?.pathname || '/';
+  const message = location.state?.message;
 
   const handleLogin = async (credentials) => {
     try {
@@ -40,11 +41,16 @@ const Login = () => {
                {/* <ArrowLeft size={20} className="mr-2" /> */}
                <span>Back </span>
              </Link>
-      <motion.div
+             <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="max-w-md w-full bg-gray-800 rounded-lg p-8"
       >
+        {message && (
+          <div className="mb-4 p-3 bg-blue-900 text-white rounded">
+            {message}
+          </div>
+        )}
         <h2 className="text-3xl font-bold text-white mb-6 text-center">Welcome Back</h2>
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div>

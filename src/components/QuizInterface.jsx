@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { FaHome, FaRedo, FaCheck, FaTimes, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
+import withAuth from '../withAuth';
 
 const QuizInterface = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -366,4 +367,4 @@ const QuizInterface = () => {
   );
 };
 
-export default QuizInterface;
+export default withAuth(QuizInterface)

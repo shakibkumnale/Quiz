@@ -3,6 +3,7 @@ import { fetchTopics, submitScore } from '../api';
 import { Link } from 'react-router-dom';
 import { FaHome, FaRedo, FaCheck, FaTimes, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { ArrowLeft } from 'lucide-react';
+import withAuth from '../withAuth';
 
 const QuizSelection = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -369,5 +370,4 @@ const QuizSelection = () => {
     </div>
   );
 };
-
-export default QuizSelection;
+export default withAuth(QuizSelection);

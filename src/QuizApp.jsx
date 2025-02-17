@@ -9,25 +9,9 @@ import CounterAnimation from './components/CounterAnimation';
 import TopicCard from './components/TopicCard';
 import TechShowcase from './components/TechShowcase';
 import Footer from './components/Footer';
+import FeaturesSection from './components/Features';
 // import AnchorLink from "react-anchor-link-smooth-scroll";
 
-const features = [
-  {
-    icon: <Star className="w-10 h-10 text-cyan-400" />,
-    title: 'High Quality Questions',
-    description: 'Our quizzes are crafted by experts to ensure high quality and relevance.'
-  },
-  {
-    icon: <Shield className="w-10 h-10 text-cyan-400" />,
-    title: 'Secure and Private',
-    description: 'Your data is secure with us. We prioritize your privacy and security.'
-  },
-  {
-    icon: <Globe className="w-10 h-10 text-cyan-400" />,
-    title: 'Global Reach',
-    description: 'Join a community of learners from around the world and expand your knowledge.'
-  }
-];
 
 const QuizApp = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -194,23 +178,7 @@ const QuizApp = () => {
       </div>
 
       {/* Features Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-        <div className="grid md:grid-cols-3 gap-8">
-          {features.map((feature, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.2 }}
-              className="p-6 bg-gray-800 rounded-lg"
-            >
-              <div className="mb-4">{feature.icon}</div>
-              <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-              <p className="text-gray-400">{feature.description}</p>
-            </motion.div>
-          ))}
-        </div>
-      </div>
+      <FeaturesSection/>
 
       {/* Counter Animation */}
       <CounterAnimation />

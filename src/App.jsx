@@ -20,6 +20,17 @@ const App = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
+      const authState = localStorage.getItem('authState');
+      
+      // If no auth state exists, just set as not authenticated
+      if (!authState) {
+        dispatch(setAuthState({ 
+          isAuthenticated: false,
+          user: null 
+        }));
+        return;
+      }
+
       try {
         const response = await fetchUser();
         if (response.data.success) {
@@ -28,6 +39,7 @@ const App = () => {
             user: response.data.data 
           }));
         } else {
+          localStorage.removeItem('authState');
           dispatch(setAuthState({ 
             isAuthenticated: false,
             user: null 
@@ -35,17 +47,17 @@ const App = () => {
         }
       } catch (error) {
         console.error('Failed to fetch user data:', error);
-        dispatch(setAuthState({ 
-          isAuthenticated: false,
-          user: null 
-        }));
+        if (error.response?.status === 401) {
+          localStorage.removeItem('authState');
+          dispatch(setAuthState({ 
+            isAuthenticated: false,
+            user: null 
+          }));
+        }
       }
     };
 
-    const authState = localStorage.getItem('authState');
-    if (authState) {
-      fetchUserData();
-    }
+    fetchUserData();
   }, [dispatch]);
 
   return (
