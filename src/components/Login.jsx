@@ -1,32 +1,47 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, use } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 import { useDispatch } from 'react-redux';
 import { login } from '../api';
 import { loginSuccess } from '../slices/authSlice';
-import { showAlert } from '../slices/alertSlice';
+import { showAlert } from '../slices/alertSlice'
+import { useAlert } from './Alert';
 const Login = () => {
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+    const { showAlert } = useAlert(); 
   const location = useLocation();
   const message = location.state?.message;
 
   const handleLogin = async (credentials) => {
     try {
+      setLoading(true);
       const response = await login(credentials);
+      console.log(response)
       if (response.data.success) {
         dispatch(loginSuccess(response.data.data));
+      showAlert('login Successfully', 'success');
+
         navigate('/');
       } else {
-        dispatch(showAlert({ message: response.data.message, type: 'error' }));
+        // dispatch(showAlert({ message: response.data.message, type: 'error' }));
+        console.log(response)
+      showAlert(response.data.message, 'error');
+
       }
     } catch (error) {
-      dispatch(showAlert({ message: 'Login failed', type: 'error' }));
+      // dispatch(showAlert({ message: 'Login failed', type: 'error' }));
+      console.log(error.response.data.message)
+      // console.log(response)
+      showAlert(error.response.data.message, 'error');
+    }
+    finally {
+      setLoading(false);
     }
   };
 
@@ -98,9 +113,9 @@ const Login = () => {
                     </div>      
           <button
             type="submit"
-            className="w-full bg-cyan-500 text-white rounded-md py-3 font-medium hover:bg-cyan-600 transition-colors"
+            className="w-full bg-cyan-500 text-white rounded-md py-3 items-center flex justify-center font-medium hover:bg-cyan-600 transition-colors"
           >
-            Sign In
+            {loading ? <div className="animate-spin w-8 h-8 border-4 border-white border-t-transparent rounded-full"></div>: "Sign In"}
           </button>
         </form>
       </motion.div>

@@ -6,6 +6,7 @@ import { register, sendOtp } from '../api';
 import { useAlert } from './Alert'; // Import useAlert hook
 
 const Register = () => {
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     Fname: '',
@@ -40,6 +41,7 @@ const Register = () => {
       return;
     }
     try {
+      setLoading(true);
       const response = await register(formData);
       if (response.data.success) {
         showAlert('User registered successfully', 'success');
@@ -49,7 +51,7 @@ const Register = () => {
       }
     } catch (error) {
       console.error(error);
-      showAlert('Registration failed', 'error');
+      showAlert(error.response.data.message, 'error');
     }
   };
 
@@ -65,8 +67,9 @@ const Register = () => {
       }
     } catch (error) {
       console.error(error);
-      showAlert('Failed to send OTP', 'error');
-    }
+      showAlert(error.response.data.message, 'error');
+    } finally {
+      setLoading(false);  }
   };
 
   return (
@@ -203,7 +206,9 @@ const Register = () => {
             type="submit"
             className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg py-3 font-medium hover:from-cyan-600 hover:to-blue-600 transition-all transform hover:scale-[1.02] active:scale-[0.98]"
           >
-            Create Account
+            {loading ? <div className="animate-spin w-8 h-8 border-4 border-white border-t-transparent rounded-full"></div>: "Create Account"}
+
+          
           </button>
         </form>
       </motion.div>

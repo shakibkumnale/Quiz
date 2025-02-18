@@ -29,7 +29,7 @@ export const AlertProvider = ({ children }) => {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          className={`fixed top-4 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-md ${
+          className={`fixed top-4 left-1/2 transform  -translate-x-1/2 px-4 py-2 rounded-md ${
             alert.type === 'success' ? 'bg-green-500' : 'bg-red-500'
           } text-white`}
         >

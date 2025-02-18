@@ -164,7 +164,7 @@ const QuizApp = () => {
             {isAuthenticated ? ( <><Link to='/quiz-selection' className="px-8 py-3 bg-cyan-500 rounded-md hover:bg-cyan-600 transition-colors font-medium">
                 Get Started
               </Link>
-              <Link to='/profile' className="px-8 py-3 border border-cyan-500 rounded-md hover:bg-gray-800 transition-colors font-medium flex items-center ">
+              <Link to='/profile' className="px-8 py-3 border border-cyan-500 rounded-md flex  justify-center hover:bg-gray-800 transition-colors font-medium  items-center ">
                 Edit Topics <UserPen className="w-6 h-6 m2 ml-3 transform group-hover/button:rotate-15 group-hover/button:scale-110 transition-transform" />
               </Link></>):(<><Link to='/register' className="px-8 py-3 bg-cyan-500 rounded-md hover:bg-cyan-600 transition-colors font-medium ">
                 Get Started
