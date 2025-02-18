@@ -52,7 +52,10 @@ const Register = () => {
     } catch (error) {
       console.error(error);
       showAlert(error.response.data.message, 'error');
+    } finally {
+      setLoading(false);
     }
+    
   };
 
   const handleRequestOtp = async () => {
@@ -68,8 +71,7 @@ const Register = () => {
     } catch (error) {
       console.error(error);
       showAlert(error.response.data.message, 'error');
-    } finally {
-      setLoading(false);  }
+    } 
   };
 
   return (
@@ -204,7 +206,7 @@ const Register = () => {
           
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg py-3 font-medium hover:from-cyan-600 hover:to-blue-600 transition-all transform hover:scale-[1.02] active:scale-[0.98]"
+            className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg py-3 flex justify-center font-medium hover:from-cyan-600 hover:to-blue-600 transition-all transform hover:scale-[1.02] active:scale-[0.98]"
           >
             {loading ? <div className="animate-spin w-8 h-8 border-4 border-white border-t-transparent rounded-full"></div>: "Create Account"}
 
